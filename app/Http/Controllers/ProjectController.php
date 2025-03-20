@@ -58,7 +58,7 @@ class ProjectController extends Controller
             'link' => 'nullable|url',
         ]);
 
-        $imageUrl = ''; // Set default value to empty string
+        $imageUrl = 'https://path-to-default-image.com/default-image.jpg'; // Set default value to empty string
 
         // Jika ada file gambar, upload ke Cloudinary
         if ($request->hasFile('image')) {
