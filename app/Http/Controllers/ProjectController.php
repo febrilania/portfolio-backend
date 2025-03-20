@@ -49,44 +49,37 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input dari form
+        // Validasi input
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'tech_stack' => 'required|string',
             'link' => 'nullable|url',
         ]);
 
-        $imageUrl = 'https://path-to-default-image.com/default-image.jpg'; // Set default value to empty string
+        // Upload gambar ke Cloudinary
+        $image = $request->file('image');
+        $uploadedImage = Cloudinary::upload($image->getRealPath());
 
-        // Jika ada file gambar, upload ke Cloudinary
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-
-            try {
-                // Upload gambar ke Cloudinary menggunakan Facade
-                $uploadedImage = Cloudinary::upload($image->getRealPath());
-
-                // Ambil URL gambar yang aman dari Cloudinary
-                $imageUrl = $uploadedImage->getSecureUrl();  // Menggunakan method getSecureUrl()
-            } catch (\Exception $e) {
-                // Handle jika terjadi error saat upload
-                return response()->json(['error' => 'Image upload failed: ' . $e->getMessage()], 500);
-            }
-        }
+        // Ambil URL gambar setelah upload
+        $imageUrl = $uploadedImage->getSecurePath();
 
         // Simpan data project ke database
         $project = Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageUrl, // Simpan URL gambar dari Cloudinary (kosong jika tidak ada gambar)
+            'image' => $imageUrl, // Simpan URL gambar
             'tech_stack' => $request->tech_stack,
             'link' => $request->link,
         ]);
 
-        // Return response sukses dengan data project
-        return response()->json($project, 201);
+        // Kembalikan respons JSON
+        return response()->json([
+            'success' => true,
+            'message' => 'Project berhasil ditambahkan',
+            'data' => $project,
+        ], 201);  // HTTP status 201 (Created)
     }
 
 
