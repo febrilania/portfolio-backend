@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e50da48126901bf19528e09e7b3cb2a",
+    "content-hash": "405f50e3ec0abd72e45699476d42985c",
     "packages": [
+        {
+            "name": "ashraafdev/cloudinary-laravel",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ashraafdev/cloudinary-laravel.git",
+                "reference": "45db5fbf8156b7203b3674caacf91a5237c21d00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ashraafdev/cloudinary-laravel/zipball/45db5fbf8156b7203b3674caacf91a5237c21d00",
+                "reference": "45db5fbf8156b7203b3674caacf91a5237c21d00",
+                "shasum": ""
+            },
+            "require": {
+                "cloudinary/cloudinary_php": "^2.12",
+                "league/flysystem": "^3.0.0",
+                "symfony/dotenv": "^6.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.5",
+                "symfony/var-dumper": "^6.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "helpers/HelperFunctions.php"
+                ],
+                "psr-4": {
+                    "AshraafDev\\Helpers\\": "helpers/",
+                    "Ashraafdev\\CloudinaryLaravel\\": "src/",
+                    "AshraafDev\\Tests\\CloudinaryLaravel\\": "test/",
+                    "Ashraafdev\\CloudinaryLaravel\\Exception\\": "exception/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Achraf Hebboul"
+                }
+            ],
+            "description": "Cloudinary Adapter for Laravel",
+            "support": {
+                "issues": "https://github.com/ashraafdev/cloudinary-laravel/issues",
+                "source": "https://github.com/ashraafdev/cloudinary-laravel/tree/dev"
+            },
+            "time": "2024-02-20T22:39:30+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.12.3",
@@ -134,6 +186,103 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "carlosocarvalho/flysystem-cloudinary",
+            "version": "v2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/carlosocarvalho/flysystem-cloudinary.git",
+                "reference": "7d8f99be51ba57c8382a9532923f3aaa3a5d69a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/carlosocarvalho/flysystem-cloudinary/zipball/7d8f99be51ba57c8382a9532923f3aaa3a5d69a3",
+                "reference": "7d8f99be51ba57c8382a9532923f3aaa3a5d69a3",
+                "shasum": ""
+            },
+            "require": {
+                "cloudinary/cloudinary_php": "^2.10",
+                "league/flysystem": "^3.14",
+                "php": ">=8.0.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/php-code-coverage": "9.2.*",
+                "phpunit/phpunit": "9.5.*",
+                "symfony/var-dumper": "^3.4.39",
+                "vlucas/phpdotenv": "^4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CarlosOCarvalho\\Flysystem\\Cloudinary\\": "src/",
+                    "CarlosOCarvalho\\Flysystem\\Cloudinary\\Test\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "carlosocarvalho",
+                    "email": "carlosocarvalho.com.br@gmail.com",
+                    "homepage": "https://carlosocarvalho.com.br",
+                    "role": "Owner"
+                }
+            ],
+            "description": "Flysystem adapter for Cloudinary",
+            "homepage": "http://carlosocarvalho.github.io/flysystem-cloudinary",
+            "keywords": [
+                "Flysystem",
+                "cloudinary"
+            ],
+            "support": {
+                "issues": "https://github.com/carlosocarvalho/flysystem-cloudinary/issues",
+                "source": "https://github.com/carlosocarvalho/flysystem-cloudinary/tree/v2.0.6"
+            },
+            "time": "2025-03-16T17:39:53+00:00"
+        },
+        {
+            "name": "carlosocarvalho/storage-cloudinary-laravel",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/carlosocarvalho/laravel-storage-cloudinary.git",
+                "reference": "8aa89327c9be203be61eeac9c81cf9e230e10eee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/carlosocarvalho/laravel-storage-cloudinary/zipball/8aa89327c9be203be61eeac9c81cf9e230e10eee",
+                "reference": "8aa89327c9be203be61eeac9c81cf9e230e10eee",
+                "shasum": ""
+            },
+            "require": {
+                "carlosocarvalho/flysystem-cloudinary": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CarlosOCarvalho\\Providers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carlos O Carvalho",
+                    "email": "quenduk@yahoo.com.br"
+                }
+            ],
+            "description": "Provider for laravel for Cloudinary",
+            "support": {
+                "issues": "https://github.com/carlosocarvalho/laravel-storage-cloudinary/issues",
+                "source": "https://github.com/carlosocarvalho/laravel-storage-cloudinary/tree/v2.0.0"
+            },
+            "time": "2022-03-24T13:39:07+00:00"
         },
         {
             "name": "cloudinary-labs/cloudinary-laravel",
@@ -3592,6 +3741,80 @@
                 }
             ],
             "time": "2024-09-25T14:20:29+00:00"
+        },
+        {
+            "name": "symfony/dotenv",
+            "version": "v6.4.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dotenv.git",
+                "reference": "1ac5e7e7e862d4d574258daf08bd569ba926e4a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dotenv/zipball/1ac5e7e7e862d4d574258daf08bd569ba926e4a5",
+                "reference": "1ac5e7e7e862d4d574258daf08bd569ba926e4a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "conflict": {
+                "symfony/console": "<5.4",
+                "symfony/process": "<5.4"
+            },
+            "require-dev": {
+                "symfony/console": "^5.4|^6.0|^7.0",
+                "symfony/process": "^5.4|^6.0|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Dotenv\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Registers environment variables from a .env file",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "dotenv",
+                "env",
+                "environment"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/dotenv/tree/v6.4.16"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-11-27T11:08:19+00:00"
         },
         {
             "name": "symfony/error-handler",
@@ -8311,7 +8534,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
