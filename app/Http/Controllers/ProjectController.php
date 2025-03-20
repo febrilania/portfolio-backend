@@ -58,7 +58,7 @@ class ProjectController extends Controller
             'link' => 'nullable|url',
         ]);
 
-        $imageUrl = null;
+        $imageUrl = ''; // Set default value to empty string
 
         // Jika ada file gambar, upload ke Cloudinary
         if ($request->hasFile('image')) {
@@ -80,7 +80,7 @@ class ProjectController extends Controller
         $project = Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageUrl, // Simpan URL gambar dari Cloudinary (bisa null)
+            'image' => $imageUrl, // Simpan URL gambar dari Cloudinary (kosong jika tidak ada gambar)
             'tech_stack' => $request->tech_stack,
             'link' => $request->link,
         ]);
@@ -88,6 +88,7 @@ class ProjectController extends Controller
         // Return response sukses dengan data project
         return response()->json($project, 201);
     }
+
 
 
 
