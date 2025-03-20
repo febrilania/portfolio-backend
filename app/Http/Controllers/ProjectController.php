@@ -58,18 +58,53 @@ class ProjectController extends Controller
             'link' => 'nullable|url',
         ]);
 
-        // Upload gambar ke Cloudinary
+        // Periksa file gambar
+        if (!$request->hasFile('image')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File gambar tidak ditemukan',
+            ], 400);
+        }
+
         $image = $request->file('image');
-        $uploadedImage = Cloudinary::upload($image->getRealPath());  // Mengupload gambar
+        if (!$image->isValid()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File gambar tidak valid',
+            ], 400);
+        }
+
+        // Upload gambar ke Cloudinary
+        try {
+            $uploadedImage = Cloudinary::upload($image->getRealPath());
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengupload gambar ke Cloudinary: ' . $e->getMessage(),
+            ], 500);
+        }
+
+        if (!$uploadedImage) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengupload gambar ke Cloudinary',
+            ], 500);
+        }
 
         // Ambil URL gambar setelah upload
-        $imageUrl = $uploadedImage->getSecurePath();  // Mengambil URL gambar yang aman
+        $imageUrl = $uploadedImage->getSecurePath();
+        if (!$imageUrl) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mendapatkan URL gambar dari Cloudinary',
+            ], 500);
+        }
 
         // Simpan data project ke database
         $project = Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageUrl,  // Simpan URL gambar
+            'image' => $imageUrl,
             'tech_stack' => $request->tech_stack,
             'link' => $request->link,
         ]);
