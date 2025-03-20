@@ -61,10 +61,17 @@ class ProjectController extends Controller
         try {
             $uploadedFileUrl = null;
     
-            // Pastikan file gambar diunggah sebelum diproses
             if ($request->hasFile('image')) {
-                $uploadedFileUrl = Cloudinary::uploadFile($request->file('image')->getRealPath())->getSecurePath();
+                $image = $request->file('image');
+                
+                // Debugging
+                if (!file_exists($image->getRealPath())) {
+                    return response()->json(['error' => 'File tidak ditemukan'], 400);
+                }
+            
+                $uploadedFileUrl = Cloudinary::uploadFile($image->getRealPath())->getSecurePath();
             }
+            
     
             // Simpan data proyek ke database
             $project = Project::create([
