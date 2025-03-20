@@ -20,34 +20,6 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'title' => 'required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    //         'tech_stack' => 'required|string',
-    //         'link' => 'nullable|url',
-    //     ]);
-
-    //     if ($request->hasFile('image')) {
-    //         $imagePath = $request->file('image')->store('projects', 'public');
-    //     } else {
-    //         $imagePath = null;
-    //     }
-
-    //     $project = Project::create([
-    //         'title' => $request->title,
-    //         'description' => $request->description,
-    //         'image' => $imagePath ? asset("storage/$imagePath") : null,
-    //         'tech_stack' => $request->tech_stack,
-    //         'link' => $request->link,
-    //     ]);
-    //     return response()->json($project, 200);
-    // }
-
-
-
     public function store(Request $request)
     {
         $request->validate([
@@ -57,42 +29,23 @@ class ProjectController extends Controller
             'tech_stack' => 'required|string',
             'link' => 'nullable|url',
         ]);
-    
-        try {
 
-            $path = 'laravel-cloud';
-            $publicId = date("Y-m-d_His");
-            $uploadedFileUrl = null;
-    
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                
-                // Debugging
-                if (!file_exists($image->getRealPath())) {
-                    return response()->json(['error' => 'File tidak ditemukan'], 400);
-                }
-            
-                $uploadedFileUrl = Cloudinary::upload($image->getRealPath(),[
-                    'public_id' => $publicId,
-                    'folder' => $path
-                ])->getSecurePath();
-            }
-            
-    
-            // Simpan data proyek ke database
-            $project = Project::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'image' => $uploadedFileUrl, // Bisa null jika tidak ada gambar
-                'tech_stack' => $request->tech_stack,
-                'link' => $request->link,
-            ]);
-    
-            return response()->json($project, 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('projects', 'public');
+        } else {
+            $imagePath = null;
         }
+
+        $project = Project::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $imagePath ? asset("storage/$imagePath") : null,
+            'tech_stack' => $request->tech_stack,
+            'link' => $request->link,
+        ]);
+        return response()->json($project, 200);
     }
+
 
 
     /**
