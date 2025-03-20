@@ -6,6 +6,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Uploader;
 
 class ProjectController extends Controller
 {
@@ -48,6 +49,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input dari form
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -58,24 +60,36 @@ class ProjectController extends Controller
 
         $imageUrl = null;
 
+        // Jika ada file gambar, upload ke Cloudinary
         if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'projects' // Folder di Cloudinary
-            ]);
-            $imageUrl = $uploadedImage->getSecurePath();
+            $image = $request->file('image');
+
+            try {
+                // Upload gambar ke Cloudinary menggunakan Facade
+                $uploadedImage = Cloudinary::upload($image->getRealPath());
+
+                // Ambil URL gambar yang aman dari Cloudinary
+                $imageUrl = $uploadedImage->getSecureUrl();  // Menggunakan method getSecureUrl()
+            } catch (\Exception $e) {
+                // Handle jika terjadi error saat upload
+                return response()->json(['error' => 'Image upload failed: ' . $e->getMessage()], 500);
+            }
         }
 
+        // Simpan data project ke database
         $project = Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageUrl, // URL gambar dari Cloudinary
+            'image' => $imageUrl, // Simpan URL gambar dari Cloudinary (bisa null)
             'tech_stack' => $request->tech_stack,
             'link' => $request->link,
         ]);
 
+        // Return response sukses dengan data project
         return response()->json($project, 201);
     }
+
+
 
 
 
