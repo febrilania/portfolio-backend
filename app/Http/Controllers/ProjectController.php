@@ -63,7 +63,7 @@ class ProjectController extends Controller
     
             // Pastikan file gambar diunggah sebelum diproses
             if ($request->hasFile('image')) {
-                $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+                $uploadedFileUrl = Cloudinary::uploadFile($request->file('image')->getRealPath())->getSecurePath();
             }
     
             // Simpan data proyek ke database
