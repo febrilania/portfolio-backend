@@ -60,16 +60,16 @@ class ProjectController extends Controller
 
         // Upload gambar ke Cloudinary
         $image = $request->file('image');
-        $uploadedImage = Cloudinary::upload($image->getRealPath());
+        $uploadedImage = Cloudinary::upload($image->getRealPath());  // Mengupload gambar
 
         // Ambil URL gambar setelah upload
-        $imageUrl = $uploadedImage->getSecurePath();
+        $imageUrl = $uploadedImage->getSecurePath();  // Mengambil URL gambar yang aman
 
         // Simpan data project ke database
         $project = Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imageUrl, // Simpan URL gambar
+            'image' => $imageUrl,  // Simpan URL gambar
             'tech_stack' => $request->tech_stack,
             'link' => $request->link,
         ]);
@@ -81,6 +81,7 @@ class ProjectController extends Controller
             'data' => $project,
         ], 201);  // HTTP status 201 (Created)
     }
+
 
 
 
