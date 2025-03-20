@@ -20,6 +20,32 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    //         'tech_stack' => 'required|string',
+    //         'link' => 'nullable|url',
+    //     ]);
+
+    //     if ($request->hasFile('image')) {
+    //         $imagePath = $request->file('image')->store('projects', 'public');
+    //     } else {
+    //         $imagePath = null;
+    //     }
+
+    //     $project = Project::create([
+    //         'title' => $request->title,
+    //         'description' => $request->description,
+    //         'image' => $imagePath ? asset("storage/$imagePath") : null,
+    //         'tech_stack' => $request->tech_stack,
+    //         'link' => $request->link,
+    //     ]);
+    //     return response()->json($project, 200);
+    // }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -30,20 +56,25 @@ class ProjectController extends Controller
             'link' => 'nullable|url',
         ]);
 
+        $imageUrl = null;
+
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('projects', 'public');
-        } else {
-            $imagePath = null;
+            $uploadedFile = $request->file('image');
+            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
+                'folder' => 'projects' // Folder di Cloudinary
+            ]);
+            $imageUrl = $uploadedImage->getSecurePath();
         }
 
         $project = Project::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imagePath ? asset("storage/$imagePath") : null,
+            'image' => $imageUrl, // URL gambar dari Cloudinary
             'tech_stack' => $request->tech_stack,
             'link' => $request->link,
         ]);
-        return response()->json($project, 200);
+
+        return response()->json($project, 201);
     }
 
 
