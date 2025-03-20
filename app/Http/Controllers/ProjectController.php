@@ -59,6 +59,9 @@ class ProjectController extends Controller
         ]);
     
         try {
+
+            $path = 'laravel-cloud';
+            $publicId = date("Y-m-d_His");
             $uploadedFileUrl = null;
     
             if ($request->hasFile('image')) {
@@ -69,7 +72,10 @@ class ProjectController extends Controller
                     return response()->json(['error' => 'File tidak ditemukan'], 400);
                 }
             
-                $uploadedFileUrl = Cloudinary::uploadFile($image->getRealPath())->getSecurePath();
+                $uploadedFileUrl = Cloudinary::upload($image->getRealPath(),[
+                    'public_id' => $publicId,
+                    'folder' => $path
+                ])->getSecurePath();
             }
             
     
