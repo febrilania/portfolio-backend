@@ -58,25 +58,25 @@ class ProjectController extends Controller
             'link' => 'nullable|url',
         ]);
 
-        $imageUrl = null;
+        try {
+            // Upload gambar ke Cloudinary jika ada
+            $uploadedFileUrl = $request->hasFile('image')
+                ? Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath()
+                : null;
 
-        if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $uploadedImage = Cloudinary::upload($uploadedFile->getRealPath(), [
-                'folder' => 'projects'
+            // Simpan data proyek ke database
+            $project = Project::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'image' => $uploadedFileUrl, // Simpan URL gambar dari Cloudinary
+                'tech_stack' => $request->tech_stack,
+                'link' => $request->link,
             ]);
-            $imageUrl = $uploadedImage->getSecurePath(); // URL gambar di Cloudinary
+
+            return response()->json($project, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        $project = Project::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => $imageUrl, // Simpan URL gambar dari Cloudinary
-            'tech_stack' => $request->tech_stack,
-            'link' => $request->link,
-        ]);
-
-        return response()->json($project, 200);
     }
 
 
